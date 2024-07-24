@@ -24,7 +24,7 @@ The REST API is designed to provide a simple and efficient interface for checkin
 
 ### Prerequisites
 
-- Java 11 or later
+- Java 17 or later
 - Maven
 
 ### Installation
