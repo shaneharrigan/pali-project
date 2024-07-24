@@ -1,3 +1,0 @@
-shane,aaa,true
-shane,aab,false
-shane,aab,false

@@ -31,12 +31,10 @@ public final class FilePersistenceService implements PersistenceService {
                 try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
                     String line;
                     while ((line = reader.readLine()) != null) {
-                        System.out.println(String.format("line %s", line));
                         String[] parts = line.split(",");
                         if (parts.length == 3) {
                             String text = parts[1];
                             boolean isPalindrome = Boolean.parseBoolean(parts[2]);
-                            System.out.println(String.format("found %s", text));
                             cache.put(text, isPalindrome);
                         }
                     }
