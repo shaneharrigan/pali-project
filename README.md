@@ -1,29 +1,62 @@
+# Palindrome Checker Project
+
 ## Overview
 
-The Palindrome Project is a Spring Boot application that checks if a given text is a palindrome. It features a RESTful API for easy interaction, uses caching for efficiency, and stores data in a file.
+The Palindrome Checker Project is a web application designed to check if a given text is a palindrome. It utilizes Spring Boot for its backend services and Reactor for reactive programming. The project is structured to use an in-memory caching system, which can be easily replaced with other caching implementations.
 
-### Build Tools
+### Build Tools and Architecture
 
-- **Maven**: Used for building and managing dependencies. Maven simplifies configuration and ensures consistent builds.
-
-### Architecture
-
-- **Spring Boot**: Provides an easy setup for production-ready applications with minimal configuration, including embedded servers and auto-configuration.
-
-- **Reactor**: Enables non-blocking, asynchronous processing for better scalability and efficiency.
-
-- **File-Based Persistence**: Keeps data storage simple and lightweight, avoiding the need for a full database setup.
-
-- **Caching**: Improves performance by storing and reusing results of previous checks.
+- **Build Tools**: The project uses Maven for dependency management and build automation. Maven helps manage project dependencies, build processes, and configuration.
+  
+- **Architecture**:
+  - **Spring Boot**: Provides the foundation for the application with embedded servers and configuration management.
+  - **Reactor**: Utilized for reactive programming, enabling non-blocking operations and asynchronous data processing.
+  - **In-Memory Cache**: An in-memory cache implementation using `ConcurrentHashMap`, allowing thread-safe operations. This cache can be replaced with other implementations like Redis if needed.
 
 ### REST API Rationale
 
-- **RESTful Design**: Chosen for its simplicity and scalability. REST is stateless, making it easy to handle various client interactions efficiently.
+The REST API is designed to provide a simple and efficient interface for checking if a text is a palindrome. The API uses a POST method to handle requests, allowing clients to send both the username and the text for checking. This approach:
+- **Encapsulates Business Logic**: The palindrome checking logic is encapsulated in a service layer, making it reusable and testable.
+- **Supports Asynchronous Processing**: By using `Mono` from Reactor, the API can handle asynchronous and non-blocking operations efficiently.
+- **Provides Caching**: Caching mechanisms improve performance by storing previously checked texts, reducing redundant computations.
 
-- **Endpoint Design**: The `/api/palindrome` endpoint uses `POST` to handle text checks, fitting the need for operations that process data and store results.
+## Getting Started
 
-- **Reactive Programming**: Utilizes Reactor’s `Mono` to handle requests asynchronously, improving scalability and responsiveness.
+### Prerequisites
 
-- **Error Handling**: Consistent global error handling ensures reliable and informative responses to clients.
+- Java 11 or later
+- Maven
 
-This setup provides a straightforward, efficient, and scalable solution for checking palindromes.
+### Installation
+
+1. **Clone the repository**:
+
+   ```bash
+   git clone https://github.com/shaneharrigan/pali-project.git
+   cd pali-project
+   ```
+2. **Build the project:**
+   ```bash
+   mvn clean install
+   ```
+3. **Run the application:**
+   ```bash
+   mvn spring-boot:run
+   ```
+## API Endpoints
+
+- Check Palindrome
+- URL: /api/palindrome
+- Method: POST
+- Parameters:
+- username (String) - The username associated with the request.
+- text (String) - The text to check.
+- Response: Boolean - Returns true if the text is a palindrome, false otherwise.
+
+  ```bash
+  curl -X POST "http://localhost:8080/api/palindrome" -d "username=user&text=madam"
+  ```
+
+## Caching
+
+The project includes an InMemoryCache implementation. The cache is used to store and retrieve previously checked texts to improve performance. The caching mechanism can be replaced with other implementations by modifying the Cache interface and its implementations.
