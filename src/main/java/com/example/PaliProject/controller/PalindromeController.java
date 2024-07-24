@@ -16,8 +16,9 @@ public class PalindromeController {
     private final PalindromeService palindromeService;
 
     @Autowired
-    public PalindromeController(PalindromeService palindromeService) {
+    public PalindromeController(PalindromeService palindromeService) throws IOException {
         this.palindromeService = palindromeService;
+        this.palindromeService.initialize();
     }
 
 
