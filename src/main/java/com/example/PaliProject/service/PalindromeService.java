@@ -73,6 +73,11 @@ public class PalindromeService {
     public Mono<Boolean> isPalindrome(String username, String text) {
         logger.debug("Checking if '{}' is a palindrome for user '{}'", text, username);
 
+        // Validate input
+        if (!palindromeUtil.isValidInput(text)) {
+            return Mono.error(new IllegalArgumentException("Invalid text input: only alphabetic characters are supported"));
+        }
+
         // Attempt to retrieve the value from cache
         return cache.get(text)
                 .doOnSubscribe(subscription -> logger.debug("Subscribed to cache retrieval for text '{}'", text))
@@ -84,6 +89,7 @@ public class PalindromeService {
                 .doOnSuccess(result -> logger.debug("Result for text '{}': {}", text, result))
                 .doOnError(error -> logger.error("Error during palindrome check for text '{}': {}", text, error.getMessage()));
     }
+
 
 
     /**
@@ -98,9 +104,6 @@ public class PalindromeService {
      * @return a {@link Mono} emitting {@code true} if the text is a palindrome, {@code false} otherwise
      */
     private Mono<Boolean> processAndCachePalindrome(String username, String text) {
-        if (!palindromeUtil.isValidInput(text)) {
-            return Mono.error(new IllegalArgumentException("Invalid text input: only alphabetic characters are supported"));
-        }
 
         boolean isPalindrome = palindromeUtil.isPalindrome(text);
 

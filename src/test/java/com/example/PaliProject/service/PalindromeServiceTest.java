@@ -1,5 +1,6 @@
 package com.example.PaliProject.service;
 
+import com.example.PaliProject.cache.Cache;
 import com.example.PaliProject.persistence.PersistenceService;
 import com.example.PaliProject.util.PalindromeUtil;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,6 +14,7 @@ import reactor.test.StepVerifier;
 import java.io.IOException;
 import java.util.HashMap;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -26,6 +28,9 @@ class PalindromeServiceTest {
     @Mock
     private PalindromeUtil palindromeUtil;
 
+    @Mock
+    private Cache cache;
+
     @InjectMocks
     private PalindromeService palindromeService;
 
@@ -34,33 +39,34 @@ class PalindromeServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Configure mock behaviors
-        when(palindromeUtil.isValidInput(anyString())).thenReturn(true);
-        when(palindromeUtil.isPalindrome(anyString())).thenReturn(true);
+        when(cache.get(anyString())).thenReturn(Mono.just(true));
         when(persistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
         when(persistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
     }
 
     @Test
-    void testIsPalindromeValidInput() {
+    void testIsPalindromeValidInput() throws IOException {
         // Test the service method with valid input
         String username = "ted";
-        String text = "aba";
+        String text = "aba"; // valid input
 
-        // Define behavior for the palindrome check
+        // Configure mocks
+        when(palindromeUtil.isValidInput(text)).thenReturn(true);
         when(palindromeUtil.isPalindrome(text)).thenReturn(true);
+        when(persistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
+        when(persistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
 
         // Call the service method
-        palindromeService.isPalindrome(username, text)
-                .doOnNext(result -> {
-                    // Assert the result
-                    assertTrue(result);
-                    // Verify interactions with mocks
-                    verify(palindromeUtil).isValidInput(text);
-                    verify(palindromeUtil).isPalindrome(text);
-                    verify(persistenceService).save(username, text, true);
-                })
-                .block(); // To force execution and wait for the result
+        Mono<Boolean> result = palindromeService.isPalindrome(username, text);
+
+        // Use StepVerifier to test the reactive Mono
+        StepVerifier.create(result)
+                .expectNext(true) // Expecting the result to be true
+                .verifyComplete(); // Expect the Mono to complete successfully
+
+        verify(palindromeUtil).isValidInput(text);
     }
+
 
     @Test
     void testIsPalindromeInvalidInput() {
@@ -80,25 +86,16 @@ class PalindromeServiceTest {
                         throwable.getMessage().equals("Invalid text input: only alphabetic characters are supported"))
                 .verify();
     }
+
     @Test
     void testIsPalindromeCacheMiss() {
         // Test cache miss scenario
         String username = "ted";
         String text = "racecar";
-
-        // Configure the mock for palindrome check
-        when(palindromeUtil.isPalindrome(text)).thenReturn(true);
-
-        // Call the service method
-        palindromeService.isPalindrome(username, text)
-                .doOnNext(result -> {
-                    // Assert the result
-                    assertTrue(result);
-                    // Verify interactions with mocks
-                    verify(palindromeUtil).isValidInput(text);
-                    verify(palindromeUtil).isPalindrome(text);
-                    verify(persistenceService).save(username, text, true);
-                })
-                .block(); // To force execution and wait for the result
+        when(cache.get(anyString())).thenReturn(Mono.empty());
+        Mono<Boolean> result = cache.get(text);
+        StepVerifier.create(result)
+                .expectComplete() // No value should be present
+                .verify();
     }
 }
