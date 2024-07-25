@@ -37,7 +37,6 @@ public final class FileIPersistenceServiceImpl implements IPersistenceService {
      */
     @Override
     public Mono<Void> save(String username, String text, boolean isPalindrome) {
-        System.out.println("FIRRRRRRREEEE");
         return Mono.fromRunnable(() -> {
             try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_PATH, true))) {
                 writer.write(String.format("%s,%s,%b%n", username, text, isPalindrome));
