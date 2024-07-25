@@ -72,7 +72,18 @@ The project includes a flexible validation system designed to ensure that input 
 
 The project includes an InMemoryCache implementation. The ICache is used to store and retrieve previously checked texts to improve performance. The caching mechanism can be replaced with other implementations by modifying the Cache interface and its implementations.
 
+## Assumptions
+- **Spring boot**: we utilised spring boot over other frameworks because of some opinions which would speed up the development process greatly.
+- **Caching**: the cache does not have a degradation process, no entries are removed though we provided the functionality to do so later if necessary.
+   - **"Each processed value should also be written to a permanent storage solution"** - we limit the term processed value to mean a request which required further analysis (the text input was never seen before), if we only need to hit the cache then we don't need to record the result. This approach means we can treat the initial load of values as a set operation which means we can better implemented caching later on in-house.
+- **Validation system**: we decided to go for chain paradigm to provided broadest flexibility and erogonomics; originally we could have gone with a static fields approach but that would be cumbersome and unlikely to scale well. The example chains are not the best coverage as it would be better to offer more fine-grain rules (uppercase, lowercase etc.) but we provide a mode system to allow for flexibility at the behaviour level.
+- **Text input**: we assumed that all inputs should be lowercased and trimmed.
+- **Endpoints**: because this results in a potential side effect (writing to storage) we designnated the POST verbage, a GET would also have worked but we felt that POST better communicated that "this can lead to a stateful change before the web server". We also assumed that the endpoint inputs would be query parameters - this is just for taste and prototyping.
+   - originally we thought about using a DTO to format the response of the endpoint but we decided for simplicity that the response payload should just be the palindrome result. It just makes for easier test automation and saves a few lines of cod but in principle an "indicator" should not need to be extracted.
+- **Web server**: we used netty because it is pretty standardised and good performance.
+
 ## Performance Note
+- **Palindrome Order**: O(N) time / O(1) space
 - **Vanilla Configuration Startup Time**: 0.622 seconds
 - **Optimized Configuration Startup Time**: 0.592 seconds
 
