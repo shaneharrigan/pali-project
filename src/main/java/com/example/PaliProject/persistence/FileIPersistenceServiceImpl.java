@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An implementation of {@link PersistenceService} that persists data to a file.
+ * An implementation of {@link IPersistenceService} that persists data to a file.
  * This service writes and reads palindrome data to and from a text file.
  * The file used for persistence is specified by {@link #FILE_PATH}.
  * <p>
@@ -18,9 +18,9 @@ import java.util.Map;
  * </p>
  */
 @Component
-public final class FilePersistenceService implements PersistenceService {
+public final class FileIPersistenceServiceImpl implements IPersistenceService {
 
-    private static final Logger logger = LoggerFactory.getLogger(FilePersistenceService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileIPersistenceServiceImpl.class);
     private static final String FILE_PATH = "palindromes.txt";
 
     /**

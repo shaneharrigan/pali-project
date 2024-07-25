@@ -9,15 +9,15 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 /**
- * In-memory implementation of {@link Cache} that uses a {@link ConcurrentMap} for storing cached values.
+ * In-memory implementation of {@link ICache} that uses a {@link ConcurrentMap} for storing cached values.
  * <p>
  * This class provides methods to get, put, and remove values from the cache. It uses a {@link ConcurrentHashMap}
  * to ensure thread-safe operations.
  * </p>
  */
 @Component
-public class InMemoryCache implements Cache {
-    private static final Logger logger = LoggerFactory.getLogger(InMemoryCache.class);
+public class InMemoryICacheImpl implements ICache {
+    private static final Logger logger = LoggerFactory.getLogger(InMemoryICacheImpl.class);
 
     private final ConcurrentMap<String, Boolean> cache = new ConcurrentHashMap<>();
 

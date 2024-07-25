@@ -12,7 +12,7 @@ import java.util.Map;
  * typically involving some form of persistence mechanism such as a file or database.
  * </p>
  */
-public interface PersistenceService {
+public interface IPersistenceService {
 
     /**
      * Saves the provided data into the persistence store.

@@ -7,14 +7,14 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 
-class InMemoryCacheTest {
+class InMemoryICacheImplTest {
 
-    private InMemoryCache cache;
+    private InMemoryICacheImpl cache;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        cache = new InMemoryCache();
+        cache = new InMemoryICacheImpl();
     }
 
     @Test

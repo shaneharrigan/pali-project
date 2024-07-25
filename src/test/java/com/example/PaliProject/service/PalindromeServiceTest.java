@@ -1,7 +1,7 @@
 package com.example.PaliProject.service;
 
-import com.example.PaliProject.cache.Cache;
-import com.example.PaliProject.persistence.PersistenceService;
+import com.example.PaliProject.cache.ICache;
+import com.example.PaliProject.persistence.IPersistenceService;
 import com.example.PaliProject.util.PalindromeUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ import static org.mockito.Mockito.*;
 class PalindromeServiceTest {
 
     @Mock
-    private PersistenceService persistenceService;
+    private IPersistenceService IPersistenceService;
 
     @Mock
     private PalindromeUtil palindromeUtil;
 
     @Mock
-    private Cache cache;
+    private ICache ICache;
 
     @InjectMocks
     private PalindromeService palindromeService;
@@ -37,9 +37,9 @@ class PalindromeServiceTest {
         MockitoAnnotations.openMocks(this);
 
         // Configure mock behaviors
-        when(cache.get(anyString())).thenReturn(Mono.just(true));
-        when(persistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
-        when(persistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
+        when(ICache.get(anyString())).thenReturn(Mono.just(true));
+        when(IPersistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
+        when(IPersistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
     }
 
     @Test
@@ -49,8 +49,8 @@ class PalindromeServiceTest {
 
         when(palindromeUtil.isValidInput(text)).thenReturn(true);
         when(palindromeUtil.isPalindrome(text)).thenReturn(true);
-        when(persistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
-        when(persistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
+        when(IPersistenceService.save(anyString(), anyString(), anyBoolean())).thenReturn(Mono.empty());
+        when(IPersistenceService.loadCache()).thenReturn(Mono.just(new HashMap<>()));
 
         Mono<Boolean> result = palindromeService.isPalindrome(username, text);
 
@@ -80,8 +80,8 @@ class PalindromeServiceTest {
     @Test
     void testIsPalindromeCacheMiss() {
         String text = "racecar";
-        when(cache.get(anyString())).thenReturn(Mono.empty());
-        Mono<Boolean> result = cache.get(text);
+        when(ICache.get(anyString())).thenReturn(Mono.empty());
+        Mono<Boolean> result = ICache.get(text);
         StepVerifier.create(result)
                 .expectComplete()
                 .verify();
