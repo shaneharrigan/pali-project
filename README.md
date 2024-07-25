@@ -12,6 +12,7 @@ The Palindrome Checker Project is a web application designed to check if a given
   - **Spring Boot**: Provides the foundation for the application with embedded servers and configuration management.
   - **Reactor**: Utilized for reactive programming, enabling non-blocking operations and asynchronous data processing.
   - **In-Memory Cache**: An in-memory ICache implementation using `ConcurrentHashMap`, allowing thread-safe operations. This ICache can be replaced with other implementations like Redis if needed.
+  - **Validation System**: A flexible and extendable validation system that allows defining and chaining multiple validation rules to ensure input text meets specific criteria.
 
 ### REST API Rationale
 
@@ -56,6 +57,16 @@ The REST API is designed to provide a simple and efficient interface for checkin
   ```bash
   curl -X POST "http://localhost:8080/api/palindrome" -d "username=user&text=madam"
   ```
+## Validation System
+The project includes a flexible validation system designed to ensure that input text meets specific criteria before palindrome checking. The validation system is structured as follows:
+
+- **ValidationChain**: A class that allows chaining multiple validation rules.
+- **IValidationRule**: An interface for defining validation rules.
+- **Validation Rules**: Implementations of IValidationRule for specific validation criteria.
+
+### Validation Modes
+- **ALL**: Requires all rules to pass for the text to be considered valid.
+- **ANY**: Requires at least one rule to pass for the text to be considered valid.
 
 ## Caching
 
