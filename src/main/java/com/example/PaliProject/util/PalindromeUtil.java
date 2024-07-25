@@ -1,6 +1,5 @@
 package com.example.PaliProject.util;
 
-import com.example.PaliProject.validation.IValidationRule;
 import com.example.PaliProject.validation.ValidationChain;
 import com.example.PaliProject.validation.ValidationRules.AlphabeticValidationRuleImpl;
 import org.slf4j.Logger;
