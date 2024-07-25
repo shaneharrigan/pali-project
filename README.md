@@ -71,7 +71,7 @@ The project includes a flexible validation system designed to ensure that input 
 ## Caching
 
 The project includes an InMemoryCache implementation. The ICache is used to store and retrieve previously checked texts to improve performance. The caching mechanism can be replaced with other implementations by modifying the Cache interface and its implementations.
-
+![Caching image](images/caching.png)
 ## Assumptions
 - **Spring boot**: we utilised spring boot over other frameworks because of some opinions which would speed up the development process greatly.
 - **Caching**: the cache does not have a degradation process, no entries are removed though we provided the functionality to do so later if necessary.
