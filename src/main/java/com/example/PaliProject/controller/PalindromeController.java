@@ -64,10 +64,7 @@ public class PalindromeController {
         logger.info("Received palindrome check request: username={}, text={}", username, text);
 
         return palindromeService.isPalindrome(username, text)
-                .doOnSuccess(isPalindrome -> {
-                    logger.info("Palindrome check result: username={}, text={}, isPalindrome={}", username, text, isPalindrome);
-                    System.out.println(isPalindrome);
-                })
+                .doOnSuccess(isPalindrome -> logger.info("Palindrome check result: username={}, text={}, isPalindrome={}", username, text, isPalindrome))
                 .doOnError(error -> logger.error("Error checking palindrome for username={}, text={}", username, text, error));
     }
 }
