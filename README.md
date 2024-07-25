@@ -71,3 +71,9 @@ The project includes a flexible validation system designed to ensure that input 
 ## Caching
 
 The project includes an InMemoryCache implementation. The ICache is used to store and retrieve previously checked texts to improve performance. The caching mechanism can be replaced with other implementations by modifying the Cache interface and its implementations.
+
+## Performance Note
+- **Vanilla Configuration Startup Time**: 0.622 seconds
+- **Optimized Configuration Startup Time**: 0.592 seconds
+
+The optimizations applied to the configuration resulted in a modest reduction in startup time, demonstrating the efficiency improvements achieved through tailored configuration adjustments.
