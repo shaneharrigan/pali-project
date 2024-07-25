@@ -11,7 +11,7 @@ class ValidationChainTest {
 
     @BeforeEach
     void setUp() {
-        validationChain = new ValidationChain();
+        validationChain = new ValidationChain(ValidationChain.ValidationMode.ALL);
     }
 
     @Test

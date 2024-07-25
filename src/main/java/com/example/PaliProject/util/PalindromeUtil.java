@@ -27,7 +27,7 @@ public class PalindromeUtil {
      */
     public PalindromeUtil() {
         // Initialize the validation chain with default rules
-        validationChain = new ValidationChain()
+        validationChain = new ValidationChain(ValidationChain.ValidationMode.ALL)
                 .addRule(new AlphabeticValidationRuleImpl());
     }
 
