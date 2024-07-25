@@ -1,5 +1,8 @@
 package com.example.PaliProject.util;
 
+import com.example.PaliProject.validation.IValidationRule;
+import com.example.PaliProject.validation.ValidationChain;
+import com.example.PaliProject.validation.ValidationRules.AlphabeticValidationRuleImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -15,24 +18,43 @@ import org.springframework.stereotype.Component;
 public class PalindromeUtil {
 
     private static final Logger logger = LoggerFactory.getLogger(PalindromeUtil.class);
+    private final ValidationChain validationChain;
+
+    /**
+     * Initializes a new instance of {@code PalindromeUtil} with a default validation chain.
+     * <p>
+     * The default validation chain includes a rule that allows only alphabetic characters.
+     * </p>
+     */
+    public PalindromeUtil() {
+        // Initialize the validation chain with default rules
+        validationChain = new ValidationChain()
+                .addRule(new AlphabeticValidationRuleImpl());
+    }
+
+    /**
+     * Initializes a new instance of {@code PalindromeUtil} with a custom validation chain.
+     * <p>
+     * This constructor allows for the injection of a custom validation chain with specific validation rules.
+     * </p>
+     *
+     * @param validationChain the custom validation chain to be used for input validation
+     */
+    public PalindromeUtil(ValidationChain validationChain) {
+        this.validationChain = validationChain;
+    }
 
     /**
      * Checks if the input text is valid.
      * <p>
-     * A valid input is non-null and contains only alphabetic characters (a-z, A-Z).
+     * A valid input is non-null and conforms to the validation rules specified in the validation chain.
      * </p>
      *
      * @param text the input text to be validated
-     * @return {@code true} if the text is valid (non-null and contains only alphabetic characters);
-     *         {@code false} otherwise
+     * @return {@code true} if the text is valid; {@code false} otherwise
      */
     public boolean isValidInput(String text) {
-        if (text == null) {
-            logger.warn("Input text is null.");
-            return false;
-        }
-        //Regex magic...
-        boolean isValid = text.matches("[a-zA-Z]+");
+        boolean isValid = validationChain.validate(text);
         if (!isValid) {
             logger.warn("Input text contains invalid characters: {}", text);
         }
@@ -47,7 +69,8 @@ public class PalindromeUtil {
      * </p>
      *
      * @param text the input text to be checked
-     * @return {@code true} if the text is a palindrome; {@code false} otherwise
+     * @return {@code true} if the text is a palindrome;
+     *  {@code false} otherwise
      */
     public boolean isPalindrome(String text) {
         if (text == null) {
@@ -55,7 +78,8 @@ public class PalindromeUtil {
             return false;
         }
 
-        text = text.trim().toLowerCase();  // Normalize text: trim spaces and convert to lowercase
+        // Normalize text: trim spaces and convert to lowercase
+        text = text.trim().toLowerCase();  // Future update: Remove spaces, numbers, etc.
 
         int length = text.length();
         // A single character and empty strings are palindromes
