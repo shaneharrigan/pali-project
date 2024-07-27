@@ -40,6 +40,10 @@ The REST API is designed to provide a simple and efficient interface for checkin
    ```bash
    mvn clean install
    ```
+3. **Run the tests:**
+   ```bash
+   mvn test
+   ```
 3. **Run the application:**
    ```bash
    mvn spring-boot:run
