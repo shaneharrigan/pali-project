@@ -89,7 +89,7 @@ The project includes an InMemoryCache implementation. The ICache is used to stor
 
 ## Performance Note
 - **Palindrome Order**: O(N) time / O(1) space
-- **Vanilla Configuration Startup Time**: 0.622 seconds
+- **Vanilla Configuration Startup Time**: 0.812 seconds
 - **Optimized Configuration Startup Time**: 0.592 seconds
 
 The optimizations applied to the configuration resulted in a modest reduction in startup time, demonstrating the efficiency improvements achieved through tailored configuration adjustments.
