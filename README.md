@@ -81,6 +81,7 @@ The project includes an InMemoryCache implementation. The ICache is used to stor
 - **Endpoints**: because this results in a potential side effect (writing to storage) we designnated the POST verbage, a GET would also have worked but we felt that POST better communicated that "this can lead to a stateful change before the web server". We also assumed that the endpoint inputs would be query parameters - this is just for taste and prototyping.
    - originally we thought about using a DTO to format the response of the endpoint but we decided for simplicity that the response payload should just be the palindrome result. It just makes for easier test automation and saves a few lines of code but in principle an "indicator" should not need to be extracted.
 - **Web server**: we used netty because it is pretty standardised and good performance.
+- **Diagnostics**: we use both console logging (controlled via properties) and prometheus tooling for coverage.
 
 ## Performance Note
 - **Palindrome Order**: O(N) time / O(1) space
