@@ -29,7 +29,7 @@ public class PalindromeSteps {
     public void i_check_if_the_string_is_a_palindrome() {
         RestTemplate restTemplate = new RestTemplate();
         // Construct URL with query parameters
-        String url = String.format("http://localhost:8080/api/palindrome?username=%s&text=%s", username, input);
+        String url = String.format("http://localhost:8080/api/1/palindrome?username=%s&text=%s", username, input);
 
         // Set headers
         HttpHeaders headers = new HttpHeaders();

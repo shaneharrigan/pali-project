@@ -51,7 +51,7 @@ The REST API is designed to provide a simple and efficient interface for checkin
 ## API Endpoints
 
 - Check Palindrome
-- URL: /api/palindrome
+- URL: /api/1/palindrome
 - Method: POST
 - Parameters:
 - username (String) - The username associated with the request.
@@ -59,7 +59,7 @@ The REST API is designed to provide a simple and efficient interface for checkin
 - Response: Boolean - Returns true if the text is a palindrome, false otherwise.
 
   ```bash
-  curl -X POST "http://localhost:8080/api/palindrome" -d "username=user&text=madam"
+  curl -X POST "http://localhost:8080/api/1/palindrome" -d "username=user&text=madam"
   ```
 ## Validation System
 The project includes a flexible validation system designed to ensure that input text meets specific criteria before palindrome checking. The validation system is structured as follows:
@@ -83,7 +83,7 @@ The project includes an InMemoryCache implementation. The ICache is used to stor
 - **Validation system**: we decided to go for chain paradigm to provided broadest flexibility and erogonomics; originally we could have gone with a static fields approach but that would be cumbersome and unlikely to scale well. The example chains are not the best coverage as it would be better to offer more fine-grain rules (uppercase, lowercase etc.) but we provide a mode system to allow for flexibility at the behaviour level.
 - **Text input**: we assumed that all inputs should be lowercased and trimmed.
 - **Endpoints**: because this results in a potential side effect (writing to storage) we designnated the POST verbage, a GET would also have worked but we felt that POST better communicated that "this can lead to a stateful change before the web server". We also assumed that the endpoint inputs would be query parameters - this is just for taste and prototyping.
-   - originally we thought about using a DTO to format the response of the endpoint but we decided for simplicity that the response payload should just be the palindrome result. It just makes for easier test automation and saves a few lines of code but in principle an "indicator" should not need to be extracted.
+   - originally we thought about using a DTO to format the response of the endpoint but we decided for simplicity that the response payload should just be the palindrome result. It just makes for easier test automation and saves a few lines of code but in principle an "indicator" should not need to be extracted. Additionally, we use a version managed endpoint system to allow for controlled changes.
 - **Web server**: we used netty because it is pretty standardised and good performance.
 - **Diagnostics**: we use both console logging (controlled via properties) and prometheus tooling for coverage.
 

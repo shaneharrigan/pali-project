@@ -31,7 +31,7 @@ class PalindromeControllerTest {
     @Test
     void testCheckPalindromeValid() {
         webTestClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/api/palindrome")
+                .uri(uriBuilder -> uriBuilder.path("/api/1/palindrome")
                         .queryParam("username", "ted")
                         .queryParam("text", "aba")
                         .build())
@@ -49,7 +49,7 @@ class PalindromeControllerTest {
                 .thenReturn(Mono.error(new IllegalArgumentException("Invalid text input: only alphabetic characters are supported")));
 
         webTestClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/api/palindrome")
+                .uri(uriBuilder -> uriBuilder.path("/api/1/palindrome")
                         .queryParam("username", "ted")
                         .queryParam("text", "123")
                         .build())

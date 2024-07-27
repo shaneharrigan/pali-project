@@ -20,7 +20,7 @@ import java.io.IOException;
  * </p>
  */
 @RestController
-@RequestMapping("/api/palindrome")
+@RequestMapping("/api/1/palindrome")
 public class PalindromeController {
 
     private static final Logger logger = LoggerFactory.getLogger(PalindromeController.class);
