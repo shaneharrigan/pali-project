@@ -3,12 +3,12 @@ package com.example.PaliProject.service;
 import com.example.PaliProject.cache.ICache;
 import com.example.PaliProject.persistence.IPersistenceService;
 import com.example.PaliProject.util.PalindromeUtil;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
-
 import java.io.IOException;
 
 /**
@@ -23,19 +23,19 @@ public class PalindromeService {
     private static final Logger logger = LoggerFactory.getLogger(PalindromeService.class);
 
     private final PalindromeUtil palindromeUtil;
-    private final IPersistenceService IPersistenceService;
+    private final IPersistenceService persistenceService;
     private final ICache cache;
 
     /**
      * Constructs a {@link PalindromeService} with the specified {@link PalindromeUtil}, {@link IPersistenceService}, and {@link ICache}.
      *
      * @param palindromeUtil    utility for palindrome checks and input validation
-     * @param IPersistenceService service for persisting palindrome results
+     * @param persistenceService service for persisting palindrome results
      * @param cache             caching mechanism for storing palindrome results
      */
-    public PalindromeService(PalindromeUtil palindromeUtil, IPersistenceService IPersistenceService, ICache cache) {
+    public PalindromeService(PalindromeUtil palindromeUtil, IPersistenceService persistenceService, ICache cache) {
         this.palindromeUtil = palindromeUtil;
-        this.IPersistenceService = IPersistenceService;
+        this.persistenceService = persistenceService;
         this.cache = cache;
     }
 
@@ -48,14 +48,20 @@ public class PalindromeService {
      *
      * @throws IOException if an error occurs while loading the cache
      */
+    @PostConstruct
     public void initialize() throws IOException {
         logger.info("Initializing PalindromeService by loading cached data.");
-        this.IPersistenceService.loadCache()
-                .flatMapMany(map -> Flux.fromIterable(map.entrySet())) // Use Flux.fromIterable here
-                .flatMap(entry -> cache.put(entry.getKey(), entry.getValue()))
-                .doOnError(error -> logger.error("Error initializing cache: {}", error.getMessage()))
-                .subscribe();
-        logger.info("Initialization complete.");
+        try {
+            this.persistenceService.loadCache()
+                    .flatMapMany(map -> Flux.fromIterable(map.entrySet())) // Use Flux.fromIterable here
+                    .flatMap(entry -> cache.put(entry.getKey(), entry.getValue()))
+                    .doOnError(error -> logger.error("Error initializing cache: {}", error.getMessage()))
+                    .subscribe();
+            logger.info("Initialization complete.");
+        } catch (IOException e) {
+            logger.error("Error during initialization", e);
+            throw e;
+        }
     }
 
     /**
@@ -90,8 +96,6 @@ public class PalindromeService {
                 .doOnError(error -> logger.error("Error during palindrome check for text '{}': {}", text, error.getMessage()));
     }
 
-
-
     /**
      * Processes the palindrome check for the given text and updates the cache and persistence layer.
      * <p>
@@ -108,8 +112,7 @@ public class PalindromeService {
         boolean isPalindrome = palindromeUtil.isPalindrome(text);
 
         return cache.put(text, isPalindrome)
-                .then(IPersistenceService.save(username, text, isPalindrome))
+                .then(persistenceService.save(username, text, isPalindrome))
                 .then(Mono.just(isPalindrome));
     }
-
 }

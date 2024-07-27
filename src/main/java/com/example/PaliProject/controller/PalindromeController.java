@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import java.io.IOException;
-
 /**
  * REST controller for handling palindrome-related requests.
  * <p>
@@ -29,29 +27,18 @@ public class PalindromeController {
 
     /**
      * Constructs a {@link PalindromeController} with the specified {@link PalindromeService}.
-     * <p>
-     * The constructor initializes the service by calling its {@link PalindromeService#initialize()} method.
-     * </p>
      *
-     * @param palindromeService the service used for palindrome checking and persistence
-     * @throws IOException if an error occurs during the initialization of the {@code palindromeService}
+     * @param palindromeService the service used for checking if a text is a palindrome and for data persistence
      */
     @Autowired
-    public PalindromeController(PalindromeService palindromeService) throws IOException {
+    public PalindromeController(PalindromeService palindromeService) {
         this.palindromeService = palindromeService;
-        try {
-            this.palindromeService.initialize();
-            logger.info("PalindromeService initialized successfully.");
-        } catch (IOException e) {
-            logger.error("Error initializing PalindromeService", e);
-            throw e;
-        }
     }
 
     /**
      * Endpoint for checking if a given text is a palindrome.
      * <p>
-     * This method receives a username and text as request parameters and delegates the palindrome check to
+     * This method receives a username and text as request parameters, and delegates the palindrome check to
      * {@link PalindromeService#isPalindrome(String, String)}.
      * </p>
      *
