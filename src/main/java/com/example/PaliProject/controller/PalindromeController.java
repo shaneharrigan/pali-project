@@ -1,6 +1,7 @@
 package com.example.PaliProject.controller;
 
 import com.example.PaliProject.service.PalindromeService;
+import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,27 @@ public class PalindromeController {
     /**
      * Constructs a {@link PalindromeController} with the specified {@link PalindromeService}.
      * <p>
-     * The constructor initializes the service by calling its {@link PalindromeService#initialize()} method.
+     * The constructor sets the {@code palindromeService} field to the provided instance.
      * </p>
      *
-     * @param palindromeService the service used for palindrome checking and persistence
-     * @throws IOException if an error occurs during the initialization of the {@code palindromeService}
+     * @param palindromeService the service used for checking if a text is a palindrome and for data persistence
      */
     @Autowired
-    public PalindromeController(PalindromeService palindromeService) throws IOException {
+    public PalindromeController(PalindromeService palindromeService) {
         this.palindromeService = palindromeService;
+    }
+
+    /**
+     * Initializes the {@link PalindromeService} after the controller is constructed.
+     * <p>
+     * This method is called after the bean is fully constructed and dependencies are injected.
+     * It ensures that the {@code palindromeService} is properly initialized before the controller starts handling requests.
+     * </p>
+     *
+     * @throws IOException if an error occurs during the initialization of the {@code palindromeService}
+     */
+    @PostConstruct
+    public void init() throws IOException {
         try {
             this.palindromeService.initialize();
             logger.info("PalindromeService initialized successfully.");
