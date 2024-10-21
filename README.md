@@ -11,7 +11,7 @@ The Palindrome Checker Project is a web application designed to check if a given
 - **Architecture**:
   - **Spring Boot**: Provides the foundation for the application with embedded servers and configuration management.
   - **Reactor**: Utilized for reactive programming, enabling non-blocking operations and asynchronous data processing.
-  - **In-Memory Cache**: An in-memory ICache implementation using `ConcurrentHashMap`, allowing thread-safe operations. This ICache can be replaced with other implementations like Redis if needed.
+  - **In-Memory Cache**: An in-memory cache implementation using `ConcurrentHashMap`, allowing thread-safe operations. This cache can be replaced with other implementations like Redis if needed.
   - **Validation System**: A flexible and extendable validation system that allows defining and chaining multiple validation rules to ensure input text meets specific criteria.
 
 ### REST API Rationale
