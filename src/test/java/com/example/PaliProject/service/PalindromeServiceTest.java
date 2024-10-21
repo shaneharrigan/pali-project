@@ -1,7 +1,7 @@
 package com.example.PaliProject.service;
 
-import com.example.PaliProject.cache.ICache;
-import com.example.PaliProject.persistence.IPersistenceService;
+import com.example.PaliProject.cache.MyCache;
+import com.example.PaliProject.persistence.PersistenceService;
 import com.example.PaliProject.util.PalindromeUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ import static org.mockito.Mockito.*;
 class PalindromeServiceTest {
 
     @Mock
-    private IPersistenceService IPersistenceService;
+    private PersistenceService IPersistenceService;
 
     @Mock
     private PalindromeUtil palindromeUtil;
 
     @Mock
-    private ICache ICache;
+    private MyCache ICache;
 
     @InjectMocks
     private PalindromeService palindromeService;

@@ -1,7 +1,7 @@
 package com.example.PaliProject.service;
 
-import com.example.PaliProject.cache.ICache;
-import com.example.PaliProject.persistence.IPersistenceService;
+import com.example.PaliProject.cache.MyCache;
+import com.example.PaliProject.persistence.PersistenceService;
 import com.example.PaliProject.util.PalindromeUtil;
 import jakarta.annotation.PostConstruct;
 import org.slf4j.Logger;
@@ -15,7 +15,7 @@ import java.io.IOException;
  * Service for handling palindrome-related operations.
  * <p>
  * This service provides functionality to check if a given text is a palindrome. It also manages caching of
- * palindrome results and persists them using a {@link IPersistenceService}.
+ * palindrome results and persists them using a {@link PersistenceService}.
  * </p>
  */
 @Service
@@ -23,24 +23,24 @@ public class PalindromeService {
     private static final Logger logger = LoggerFactory.getLogger(PalindromeService.class);
 
     private final PalindromeUtil palindromeUtil;
-    private final IPersistenceService persistenceService;
-    private final ICache cache;
+    private final PersistenceService persistenceService;
+    private final MyCache cache;
 
     /**
-     * Constructs a {@link PalindromeService} with the specified {@link PalindromeUtil}, {@link IPersistenceService}, and {@link ICache}.
+     * Constructs a {@link PalindromeService} with the specified {@link PalindromeUtil}, {@link PersistenceService}, and {@link MyCache}.
      *
      * @param palindromeUtil    utility for palindrome checks and input validation
      * @param persistenceService service for persisting palindrome results
      * @param cache             caching mechanism for storing palindrome results
      */
-    public PalindromeService(PalindromeUtil palindromeUtil, IPersistenceService persistenceService, ICache cache) {
+    public PalindromeService(PalindromeUtil palindromeUtil, PersistenceService persistenceService, MyCache cache) {
         this.palindromeUtil = palindromeUtil;
         this.persistenceService = persistenceService;
         this.cache = cache;
     }
 
     /**
-     * Initializes the service by loading cached palindrome data from the {@link IPersistenceService}.
+     * Initializes the service by loading cached palindrome data from the {@link PersistenceService}.
      * <p>
      * This method retrieves cached data and populates the internal cache with it. It may throw an
      * {@link IOException} if there are issues with loading the cache.
@@ -100,7 +100,7 @@ public class PalindromeService {
      * Processes the palindrome check for the given text and updates the cache and persistence layer.
      * <p>
      * This method validates the input, checks if the text is a palindrome, updates the cache with the result,
-     * and persists the result using {@link IPersistenceService}. It logs appropriate messages for each operation.
+     * and persists the result using {@link PersistenceService}. It logs appropriate messages for each operation.
      * </p>
      *
      * @param username the username associated with the palindrome check request

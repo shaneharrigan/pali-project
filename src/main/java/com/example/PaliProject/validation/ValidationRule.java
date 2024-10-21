@@ -6,7 +6,7 @@ package com.example.PaliProject.validation;
  * Implementations of this interface can define specific validation logic for text input.
  * </p>
  */
-public interface IValidationRule {
+public interface ValidationRule {
     /**
      * Validates the given text based on specific criteria.
      *

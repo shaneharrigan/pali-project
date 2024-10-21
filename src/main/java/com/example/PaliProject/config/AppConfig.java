@@ -1,7 +1,7 @@
 package com.example.PaliProject.config;
 
-import com.example.PaliProject.cache.ICache;
-import com.example.PaliProject.cache.InMemoryICacheImpl;
+import com.example.PaliProject.cache.MyCache;
+import com.example.PaliProject.cache.InMemoryCache;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * Configuration class for setting up application beans.
  * <p>
- * This class defines a bean for the {@link ICache} interface, specifically providing an {@link InMemoryICacheImpl}
+ * This class defines a bean for the {@link MyCache} interface, specifically providing an {@link InMemoryCache}
  * implementation. The configuration is managed by the Spring container.
  * </p>
  */
@@ -19,17 +19,17 @@ public class AppConfig {
     private static final Logger logger = LoggerFactory.getLogger(AppConfig.class);
 
     /**
-     * Provides a bean for the {@link ICache} interface.
+     * Provides a bean for the {@link MyCache} interface.
      * <p>
-     * This method returns an instance of {@link InMemoryICacheImpl} which is used as the caching mechanism for the
+     * This method returns an instance of {@link InMemoryCache} which is used as the caching mechanism for the
      * application.
      * </p>
      *
-     * @return a {@link ICache} bean instance
+     * @return a {@link MyCache} bean instance
      */
     @Bean
-    public ICache cache() {
+    public MyCache cache() {
         logger.info("Creating a Cache bean with InMemoryCache implementation.");
-        return new InMemoryICacheImpl();
+        return new InMemoryCache();
     }
 }

@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  */
 public class ValidationChain {
-    private final List<IValidationRule> rules = new ArrayList<>();
+    private final List<ValidationRule> rules = new ArrayList<>();
     private final ValidationMode mode;
 
     /**
@@ -40,7 +40,7 @@ public class ValidationChain {
      * @param rule the validation rule to be added
      * @return the current instance of {@code ValidationChain} for method chaining
      */
-    public ValidationChain addRule(IValidationRule rule) {
+    public ValidationChain addRule(ValidationRule rule) {
         rules.add(rule);
         return this;
     }
@@ -54,14 +54,14 @@ public class ValidationChain {
      */
     public boolean validate(String text) {
         if (mode == ValidationMode.ALL) {
-            for (IValidationRule rule : rules) {
+            for (ValidationRule rule : rules) {
                 if (!rule.isValid(text)) {
                     return false;
                 }
             }
             return true;
         } else if (mode == ValidationMode.ANY) {
-            for (IValidationRule rule : rules) {
+            for (ValidationRule rule : rules) {
                 if (rule.isValid(text)) {
                     return true;
                 }

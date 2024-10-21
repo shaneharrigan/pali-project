@@ -9,12 +9,12 @@ import reactor.test.StepVerifier;
 
 class InMemoryICacheImplTest {
 
-    private InMemoryICacheImpl cache;
+    private InMemoryCache cache;
 
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        cache = new InMemoryICacheImpl();
+        cache = new InMemoryCache();
     }
 
     @Test

@@ -11,7 +11,7 @@ public class ValidationRules {
     /**
      * Validation rule to check if the input text contains only alphabetic characters.
      */
-    public static class AlphabeticValidationRuleImpl implements IValidationRule {
+    public static class AlphabeticValidationRuleImpl implements ValidationRule {
         @Override
         public boolean isValid(String text) {
             return text != null && text.matches("[a-zA-Z]+");
@@ -21,7 +21,7 @@ public class ValidationRules {
     /**
      * Validation rule to check if the input text contains only numeric characters.
      */
-    public static class NumericValidationRuleImpl implements IValidationRule {
+    public static class NumericValidationRuleImpl implements ValidationRule {
         @Override
         public boolean isValid(String text) {
             return text != null && text.matches("[0-9]+");
@@ -31,7 +31,7 @@ public class ValidationRules {
     /**
      * Validation rule to check if the input text contains only alphanumeric characters.
      */
-    public static class AlphanumericValidationRuleImpl implements IValidationRule {
+    public static class AlphanumericValidationRuleImpl implements ValidationRule {
         @Override
         public boolean isValid(String text) {
             return text != null && text.matches("[a-zA-Z0-9]+");
@@ -41,7 +41,7 @@ public class ValidationRules {
     /**
      * Validation rule to check if the input text contains only alphabetic characters and spaces.
      */
-    public static class WhitespaceValidationRuleImpl implements IValidationRule {
+    public static class WhitespaceValidationRuleImpl implements ValidationRule {
         @Override
         public boolean isValid(String text) {
             return text != null && text.matches("[a-zA-Z0-9\\s]*");

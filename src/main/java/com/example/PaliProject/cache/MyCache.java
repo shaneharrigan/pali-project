@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
  * The operations are asynchronous and return {@link Mono} to allow for non-blocking access.
  * </p>
  */
-public interface ICache {
+public interface MyCache {
     /**
      * Retrieves a value from the cache.
      * <p>
